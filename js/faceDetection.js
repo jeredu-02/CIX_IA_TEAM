@@ -10,6 +10,12 @@ document.getElementById('activarCamara').addEventListener('click', async functio
         navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
             video.srcObject = stream;
             video.play();
+
+            // Ajusta el tamaño del canvas para que coincida con el tamaño del video
+            video.addEventListener('loadeddata', () => {
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+            });
         });
     }
 
