@@ -3,16 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Activar Cámara</title>
+    <title>Detección de Rostros</title>
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Incluir la librería de TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <!-- Incluir el modelo de detección de rostros de TensorFlow.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
 </head>
 <body>
     <div class="container">
-        <h1>Activa tu cámara</h1>
+        <h1>Detección de Rostros con TensorFlow.js</h1>
         <button id="activarCamara">Activar Cámara</button>
         <video id="video" width="640" height="480" autoplay></video>
+        <canvas id="canvas" width="640" height="480"></canvas>
     </div>
 
-    <script src="js/camera.js"></script>
+    <script src="js/faceDetection.js"></script>
 </body>
 </html>
