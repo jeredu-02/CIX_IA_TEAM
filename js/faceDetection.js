@@ -35,11 +35,12 @@ async function detectFaces() {
     // Dibujar los rostros detectados en el canvas
     if (predictions.length > 0) {
         predictions.forEach((prediction) => {
-            // Dibuja el rectángulo alrededor del rostro
+            // Obtener las coordenadas y tamaños escalados para el canvas
             const start = prediction.topLeft;
             const end = prediction.bottomRight;
             const size = [end[0] - start[0], end[1] - start[1]];
 
+            // Dibuja el rectángulo alrededor del rostro en el canvas
             ctx.beginPath();
             ctx.lineWidth = "4";
             ctx.strokeStyle = "blue";
