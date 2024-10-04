@@ -9,11 +9,18 @@ body {
 }
 
 .container {
-    text-align: center;
-    padding: 20px;
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    width: 640px;
+    height: 480px;
+    margin-top: 20px;
+}
+
+video, canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 button {
@@ -31,8 +38,18 @@ button:hover {
     background-color: #45a049;
 }
 
-video, canvas {
-    margin-top: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        height: auto;
+    }
+
+    video, canvas {
+        width: 100%;
+        height: auto;
+    }
+
+    button {
+        width: 100%;
+    }
 }
