@@ -1,18 +1,64 @@
+/* Estilos generales */
 body {
     font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    margin-top: 20px;
+}
+
+.logo-nombre {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
 }
 
-.container {
+.logo {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+.descripcion {
+    margin: 20px 0;
+}
+
+/* Cámara y video */
+.camera-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.camera-icon {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.camera-icon img {
+    width: 80px;
+    height: 80px;
+}
+
+.video-container {
     position: relative;
-    width: 640px;
-    height: 480px;
-    margin-top: 20px;
+    display: none; /* Oculto inicialmente, se muestra al activar la cámara */
+    width: 320px;
+    height: 320px;
+    border: 3px solid #333;
 }
 
 video, canvas {
@@ -23,33 +69,40 @@ video, canvas {
     height: 100%;
 }
 
-button {
+/* Indicadores de Materiales (no son botones interactivos) */
+.material-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.btn-plastico, .btn-vidrio {
     padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
     border-radius: 5px;
-    margin-top: 20px;
+    font-size: 18px;
+    margin: 10px;
+    cursor: default;
 }
 
-button:hover {
-    background-color: #45a049;
+.btn-plastico {
+    background-color: lightgray;
+    color: black;
 }
 
-@media (max-width: 768px) {
-    .container {
-        width: 100%;
-        height: auto;
-    }
+.btn-vidrio {
+    background-color: lightgray;
+    color: black;
+}
 
-    video, canvas {
-        width: 100%;
-        height: auto;
-    }
+/* Activo cuando se detecta plástico */
+.btn-active.btn-plastico {
+    background-color: green;
+    color: white;
+}
 
-    button {
-        width: 100%;
-    }
+/* Activo cuando se detecta vidrio */
+.btn-active.btn-vidrio {
+    background-color: blue;
+    color: white;
 }

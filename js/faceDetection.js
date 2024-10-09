@@ -1,54 +1,48 @@
-let model, video, canvas, ctx;
+const URL = "https://teachablemachine.withgoogle.com/models/umuVqfis6/"; // Reemplaza esta URL con la tuya
 
-document.getElementById('activarCamara').addEventListener('click', async function() {
-    video = document.getElementById('video');
-    canvas = document.getElementById('canvas');
-    ctx = canvas.getContext('2d');
+let model, webcam, maxPredictions;
 
-    // Acceder a la cámara
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-            video.srcObject = stream;
-            video.play();
+async function init() {
+    const modelURL = URL + "model.json";
+    const metadataURL = URL + "metadata.json";
 
-            // Ajusta el tamaño del canvas para que coincida con el tamaño del video
-            video.addEventListener('loadeddata', () => {
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-            });
-        });
-    }
+    // Cargar el modelo y los metadatos
+    model = await tmImage.load(modelURL, metadataURL);  // Carga el modelo desde Teachable Machine
+    maxPredictions = model.getTotalClasses();
 
-    // Cargar el modelo de detección de rostros de BlazeFace
-    model = await blazeface.load();
+    // Configurar la cámara
+    const flip = true; // Flip para que el video se vea como un espejo
+    webcam = new tmImage.Webcam(320, 320, flip); 
+    await webcam.setup();
+    await webcam.play();
+    window.requestAnimationFrame(loop);
 
-    // Empezar a detectar rostros
-    detectFaces();
-});
-
-async function detectFaces() {
-    const predictions = await model.estimateFaces(video, false);
-
-    // Limpiar el canvas antes de dibujar
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Dibujar los rostros detectados en el canvas
-    if (predictions.length > 0) {
-        predictions.forEach((prediction) => {
-            // Obtener las coordenadas y tamaños escalados para el canvas
-            const start = prediction.topLeft;
-            const end = prediction.bottomRight;
-            const size = [end[0] - start[0], end[1] - start[1]];
-
-            // Dibuja el rectángulo alrededor del rostro en el canvas
-            ctx.beginPath();
-            ctx.lineWidth = "4";
-            ctx.strokeStyle = "blue";
-            ctx.rect(start[0], start[1], size[0], size[1]);
-            ctx.stroke();
-        });
-    }
-
-    // Continuar con la detección
-    requestAnimationFrame(detectFaces);
+    // Agregar el video al contenedor
+    document.getElementById("video-container").appendChild(webcam.canvas);
 }
+
+async function loop() {
+    webcam.update(); // Actualiza la cámara
+    await predict(); // Realiza una predicción
+    window.requestAnimationFrame(loop); // Llama la función en un bucle
+}
+
+async function predict() {
+    const prediction = await model.predict(webcam.canvas); // Predice el contenido de la cámara
+
+    prediction.forEach((pred) => {
+        if (pred.className === "Plástico" && pred.probability > 0.9) {
+            document.getElementById("btnPlastico").classList.add("btn-active");
+        } else if (pred.className === "Vidrio" && pred.probability > 0.9) {
+            document.getElementById("btnVidrio").classList.add("btn-active");
+        } else {
+            document.getElementById("btnPlastico").classList.remove("btn-active");
+            document.getElementById("btnVidrio").classList.remove("btn-active");
+        }
+    });
+}
+
+// Inicializa la detección después de activar la cámara
+document.getElementById('activarCamara').addEventListener('click', function() {
+    init(); // Inicia la detección del modelo
+});

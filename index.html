@@ -3,23 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detección de Rostros con TensorFlow.js</title>
+    <title>Detección de Materiales</title>
     <link rel="stylesheet" href="css/styles.css">
-    <!-- Incluir la librería de TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
-    <!-- Incluir el modelo de detección de rostros de TensorFlow.js -->
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/blazeface"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Detección de Rostros con TensorFlow.js</h1>
-        <button id="activarCamara">Activar Cámara</button>
-        <div class="container">
+    <!-- Sección del Logo y Nombre -->
+    <header class="header">
+        <div class="logo-nombre">
+            <img src="logo.png" alt="Logo" class="logo">
+            <h1>Nombre del Proyecto</h1>
+        </div>
+    </header>
+
+    <!-- Descripción -->
+    <section class="descripcion">
+        <p>Descripción breve de la detección de materiales como plástico y vidrio.</p>
+    </section>
+
+    <!-- Cámara y Detector -->
+    <section class="camera-container">
+        <!-- Ícono de cámara que activa la cámara -->
+        <div class="camera-icon" id="activarCamara">
+            <img src="camara.png" alt="Cámara" class="icon">
+        </div>
+        <!-- Video de la cámara que se muestra al activarla -->
+        <div class="video-container" id="video-container">
             <video id="video" autoplay></video>
             <canvas id="canvas"></canvas>
         </div>
-    </div>
+    </section>
 
+    <!-- Indicadores de Materiales -->
+    <section class="material-buttons">
+        <div id="btnPlastico" class="btn-plastico">Plástico</div>
+        <div id="btnVidrio" class="btn-vidrio">Vidrio</div>
+    </section>
+
+    <!-- Cargar la librería de Teachable Machine -->
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image"></script>
+
+    
+    <!-- Scripts para la cámara y la detección -->
+    <script src="js/camera.js"></script>
     <script src="js/faceDetection.js"></script>
 </body>
 </html>
