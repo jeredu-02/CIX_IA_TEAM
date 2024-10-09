@@ -11,16 +11,24 @@ body {
     margin-top: 20px;
 }
 
+/* Logo y nombre */
 .logo-nombre {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px; /* Añadir espacio entre el logo y el título */
 }
 
+/* Estilo para el logo */
 .logo {
-    width: 50px;
-    height: 50px;
-    margin-right: 15px;
+    width: 80px; /* Ajusta el tamaño del logo según lo necesites */
+    height: auto;
+}
+
+/* Estilo para el título */
+.titulo {
+    width: 250px; /* Ajusta el tamaño de la imagen del título */
+    height: auto;
 }
 
 h1 {

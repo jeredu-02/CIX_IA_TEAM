@@ -42,7 +42,7 @@ async function predict() {
 
         if (pred.className === "Botella Plástico" && pred.probability > 0.95) {
             plasticoDetectado = true;
-        } else if (pred.className === "Botella Vidrio" && pred.probability > 0.95) {
+        } else if (pred.className === "Botella Vidrio" && pred.probability > 0.90) {
             vidrioDetectado = true;
         }
     });
