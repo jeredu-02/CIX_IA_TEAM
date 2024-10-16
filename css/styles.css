@@ -64,8 +64,8 @@ h1 {
 .video-container {
     position: relative;
     display: none; /* Oculto inicialmente, se muestra al activar la cámara */
-    width: 320px;
-    height: 320px;
+    width: 420px;
+    height: 420px;
     border: 3px solid #333;
 }
 
@@ -105,12 +105,12 @@ video, canvas {
 
 /* Activo cuando se detecta plástico */
 .btn-active.btn-plastico {
-    background-color: green;
-    color: white;
+    background-color: white;
+    color: black;
 }
 
 /* Activo cuando se detecta vidrio */
 .btn-active.btn-vidrio {
-    background-color: blue;
+    background-color: green;
     color: white;
 }
