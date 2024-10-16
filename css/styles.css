@@ -79,38 +79,106 @@ video, canvas {
 
 /* Indicadores de Materiales (no son botones interactivos) */
 .material-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+    display: flex;  /* Cambio a flex para alinear en una fila */
+    justify-content: space-around; /* Ajusta el espacio entre los botones */
+    align-items: center;
     margin-top: 30px;
+    gap: 10px;
+    flex-wrap: nowrap;
 }
 
-.btn-plastico, .btn-vidrio {
+/* Estilo general para todos los botones */
+.material-buttons div {
     padding: 10px 20px;
     border-radius: 5px;
     font-size: 18px;
-    margin: 10px;
+    margin: 0; /* Eliminar el margen vertical que desplazaba los botones */
     cursor: default;
+    min-width: 120px; /* Ancho mínimo para que los botones sean del mismo tamaño */
 }
 
-.btn-plastico {
+
+.btn-verde {
     background-color: lightgray;
     color: black;
 }
 
-.btn-vidrio {
+.btn-marron {
     background-color: lightgray;
     color: black;
 }
 
-/* Activo cuando se detecta plástico */
-.btn-active.btn-plastico {
-    background-color: white;
+.btn-negro {
+    background-color: lightgray;
     color: black;
 }
 
-/* Activo cuando se detecta vidrio */
-.btn-active.btn-vidrio {
+.btn-rojo {
+    background-color: lightgray;
+    color: black;
+}
+
+/* Botones activos cuando se detecta cada material */
+.btn-active.btn-verde {
     background-color: green;
     color: white;
+}
+
+.btn-active.btn-marron {
+    background-color: brown;
+    color: white;
+}
+
+.btn-active.btn-negro {
+    background-color: black;
+    color: white;
+}
+
+.btn-active.btn-rojo {
+    background-color: red;
+    color: white;
+}
+
+/* Estilos para la sección de clasificación de residuos */
+.clasificacion-residuos {
+    margin: 40px auto;
+    text-align: left;
+    max-width: 600px;
+}
+
+.clasificacion-residuos h2 {
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.clasificacion-residuos ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.clasificacion-residuos li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-left: 5px solid;
+}
+
+.clasificacion-residuos li strong {
+    color: #333;
+}
+
+.clasificacion-residuos li:nth-child(1) {
+    border-color: green;
+}
+
+.clasificacion-residuos li:nth-child(2) {
+    border-color: brown;
+}
+
+.clasificacion-residuos li:nth-child(3) {
+    border-color: black;
+}
+
+.clasificacion-residuos li:nth-child(4) {
+    border-color: red;
 }

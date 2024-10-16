@@ -49,15 +49,15 @@ async function predict() {
 
     // Cambiar el color de los botones
     if (plasticoDetectado) {
-        document.getElementById("btnPlastico").classList.add("btn-active");
+        document.getElementById("btnVerde").classList.add("btn-active");
     } else {
-        document.getElementById("btnPlastico").classList.remove("btn-active");
+        document.getElementById("btnVerde").classList.remove("btn-active");
     }
 
     if (vidrioDetectado) {
-        document.getElementById("btnVidrio").classList.add("btn-active");
+        document.getElementById("btnVerde").classList.add("btn-active");
     } else {
-        document.getElementById("btnVidrio").classList.remove("btn-active");
+        document.getElementById("btnVerde").classList.remove("btn-active");
     }
 }
 
