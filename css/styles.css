@@ -61,12 +61,14 @@ h1 {
     height: 80px;
 }
 
+/* Video */
 .video-container {
     position: relative;
-    display: none; /* Oculto inicialmente, se muestra al activar la cámara */
-    width: 420px;
-    height: 420px;
-    border: 3px solid #333;
+    width: 320px;
+    height: 320px;
+    margin: auto;
+    border: 4px solid #3c91e6;
+    border-radius: 10px;
 }
 
 video, canvas {
@@ -77,65 +79,67 @@ video, canvas {
     height: 100%;
 }
 
-/* Indicadores de Materiales (no son botones interactivos) */
-.material-buttons {
-    display: flex;  /* Cambio a flex para alinear en una fila */
-    justify-content: space-around; /* Ajusta el espacio entre los botones */
-    align-items: center;
-    margin-top: 30px;
-    gap: 10px;
-    flex-wrap: nowrap;
+/* Botones de materiales */
+#material-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
 }
 
-/* Estilo general para todos los botones */
-.material-buttons div {
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 18px;
-    margin: 0; /* Eliminar el margen vertical que desplazaba los botones */
+#material-buttons div {
+    padding: 15px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    margin: 10px;
+    color: black; /* Título en negro */
+    text-align: center;
     cursor: default;
-    min-width: 120px; /* Ancho mínimo para que los botones sean del mismo tamaño */
+    min-width: 150px;
+    text-transform: uppercase;
+    background-color: lightgray; /* Fondo inicial gris */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
 }
 
+/* Botón activo */
+#material-buttons div.btn-active {
+    transform: scale(1.1); /* Efecto de aumento */
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
 
-.btn-verde {
+/* Colores específicos para los botones */
+#btn-papelycarton {
     background-color: lightgray;
-    color: black;
+    border-color: blue;
 }
 
-.btn-marron {
+#btn-plastico {
     background-color: lightgray;
-    color: black;
+    border-color: white;
 }
 
-.btn-negro {
+#btn-residuosnoaprovechables {
     background-color: lightgray;
-    color: black;
+    border-color: black;
 }
 
-.btn-rojo {
-    background-color: lightgray;
-    color: black;
-}
-
-/* Botones activos cuando se detecta cada material */
-.btn-active.btn-verde {
-    background-color: green;
+/* Botones activos */
+#btn-papelycarton.btn-active {
+    background-color: #87cefa; /* Azul claro */
     color: white;
 }
 
-.btn-active.btn-marron {
-    background-color: brown;
-    color: white;
+#btn-plastico.btn-active {
+    background-color: #f5f5f5; /* Blanco brillante */
+    border-color: black;
+    color: black;
 }
 
-.btn-active.btn-negro {
-    background-color: black;
-    color: white;
-}
-
-.btn-active.btn-rojo {
-    background-color: red;
+#btn-residuosnoaprovechables.btn-active {
+    background-color: #333333; /* Negro intenso */
     color: white;
 }
 
@@ -161,6 +165,9 @@ video, canvas {
     padding: 10px;
     background-color: #f0f0f0;
     border-left: 5px solid;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .clasificacion-residuos li strong {
@@ -168,17 +175,36 @@ video, canvas {
 }
 
 .clasificacion-residuos li:nth-child(1) {
-    border-color: green;
+    border-color: blue;
 }
 
 .clasificacion-residuos li:nth-child(2) {
-    border-color: brown;
-}
-
-.clasificacion-residuos li:nth-child(3) {
     border-color: black;
 }
 
-.clasificacion-residuos li:nth-child(4) {
-    border-color: red;
+.clasificacion-residuos li:nth-child(3) {
+    border-color: gray;
+}
+
+.descripcion {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra para dar profundidad */
+    border-left: 6px solid #3c91e6; /* Barra decorativa a la izquierda */
+}
+
+.descripcion p {
+    margin: 0;
+    padding: 0;
+    text-align: justify;
+}
+
+.descripcion strong {
+    color: #3c91e6; /* Destacar palabras clave con color */
 }

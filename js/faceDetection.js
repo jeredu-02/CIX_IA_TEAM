@@ -1,68 +1,109 @@
-const URL = "https://teachablemachine.withgoogle.com/models/umuVqfis6/"; // Reemplaza esta URL con la tuya
+const SERVER_URL = "http://127.0.0.1:5000/predict"; // Cambia esto según la dirección de tu servidor
 
-let model, webcam, maxPredictions;
+let webcam;
+
+// Mapeo de etiquetas hacia grupos específicos
+const labelGroups = {
+    "papelycarton": ["paper", "cardboard"], // Azul
+    "plastico": ["plastic"], // Blanco
+    "residuosnoaprovechables": ["glass", "metal", "trash"] // Negro
+};
+
+const buttons = [
+    { id: "papelycarton", color: "blue", label: "Papel y Cartón" },
+    { id: "plastico", color: "white", label: "Plástico" },
+    { id: "residuosnoaprovechables", color: "black", label: "Residuos No Aprovechables" }
+];
 
 async function init() {
-    const modelURL = URL + "model.json";
-    const metadataURL = URL + "metadata.json";
-
-    // Cargar el modelo y los metadatos
-    model = await tmImage.load(modelURL, metadataURL);  // Carga el modelo desde Teachable Machine
-    maxPredictions = model.getTotalClasses();
-
-    console.log("Modelo cargado correctamente"); // Verificar si el modelo se ha cargado
-
     // Configurar la cámara
-    const flip = true; // Flip para que el video se vea como un espejo
-    webcam = new tmImage.Webcam(320, 320, flip); 
+    const flip = true; // Voltear el video como un espejo
+    webcam = new tmImage.Webcam(320, 320, flip);
     await webcam.setup();
     await webcam.play();
     window.requestAnimationFrame(loop);
 
     // Agregar el video al contenedor
     document.getElementById("video-container").appendChild(webcam.canvas);
-    console.log("Cámara configurada correctamente"); // Verificar si la cámara está funcionando
 }
 
 async function loop() {
     webcam.update(); // Actualiza la cámara
-    await predict(); // Realiza una predicción
-    window.requestAnimationFrame(loop); // Llama la función en un bucle
+    await predict(); // Enviar la imagen al servidor para predecir
+    await new Promise((resolve) => setTimeout(resolve, 500)); // Agrega un retraso de 500 ms
+    window.requestAnimationFrame(loop);
 }
 
 async function predict() {
-    const prediction = await model.predict(webcam.canvas); // Predice el contenido de la cámara
-    console.log("Predicciones: ", prediction); // Ver las predicciones en la consola
+    // Toma una instantánea del video como imagen
+    const canvas = webcam.canvas;
+    canvas.toBlob(async function (blob) {
+        const formData = new FormData();
+        formData.append("image", blob, "image.jpg");
 
-    let plasticoDetectado = false;
-    let vidrioDetectado = false;
+        try {
+            const response = await fetch(SERVER_URL, {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+            console.log(data);
 
-    prediction.forEach((pred) => {
-        console.log(`${pred.className}: ${pred.probability}`); // Loguear cada predicción y probabilidad
-
-        if (pred.className === "Botella Plástico" && pred.probability > 0.95) {
-            plasticoDetectado = true;
-        } else if (pred.className === "Botella Vidrio" && pred.probability > 0.90) {
-            vidrioDetectado = true;
+            // Actualizar botones según la predicción
+            updateButtons(data.predicted_label);
+        } catch (error) {
+            console.error("Error al predecir:", error);
         }
-    });
+    }, "image/jpeg");
+}
 
-    // Cambiar el color de los botones
-    if (plasticoDetectado) {
-        document.getElementById("btnVerde").classList.add("btn-active");
-    } else {
-        document.getElementById("btnVerde").classList.remove("btn-active");
+function generateButtons(buttons) {
+    const container = document.getElementById("material-buttons");
+
+    buttons.forEach((button) => {
+        // Crear un botón para cada grupo
+        const div = document.createElement("div");
+        div.id = `btn-${button.id}`; // Aquí corregimos el uso de template literals
+        div.className = "btn-inactive"; // Clase inicial para los botones
+        div.style.backgroundColor = "lightgray"; // Fondo inicial gris
+        div.textContent = button.label; // Texto del botón
+        container.appendChild(div);
+    });
+}
+
+function updateButtons(predictedLabel) {
+    // Determinar a qué grupo pertenece la etiqueta detectada
+    let activatedGroup = null;
+
+    for (const [group, labels] of Object.entries(labelGroups)) {
+        if (labels.includes(predictedLabel)) {
+            activatedGroup = group;
+            break;
+        }
     }
 
-    if (vidrioDetectado) {
-        document.getElementById("btnVerde").classList.add("btn-active");
-    } else {
-        document.getElementById("btnVerde").classList.remove("btn-active");
+    // Reiniciar el estado de los botones
+    const buttons = document.querySelectorAll("#material-buttons div");
+    buttons.forEach((button) => button.style.backgroundColor = "lightgray");
+
+    // Activar el botón correspondiente
+    if (activatedGroup) {
+        const button = document.getElementById(`btn-${activatedGroup}`); // También corregimos aquí
+        if (button) {
+            button.style.backgroundColor = getButtonColor(activatedGroup);
+        }
     }
 }
 
+function getButtonColor(group) {
+    const button = buttons.find((btn) => btn.id === group);
+    return button ? button.color : "lightgray";
+}
+
+// Generar los botones al cargar la página
+generateButtons(buttons);
+
 // Inicializa la detección después de activar la cámara
-document.getElementById('activarCamara').addEventListener('click', function() {
-    console.log("Cámara activada");
-    init(); // Inicia la detección del modelo
+document.getElementById("activarCamara").addEventListener("click", function () {
+    init();
 });
