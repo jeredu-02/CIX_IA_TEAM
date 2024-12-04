@@ -1,4 +1,4 @@
-const SERVER_URL = "http://127.0.0.1:5000/predict"; // Cambia esto según la dirección de tu servidor
+const SERVER_URL = "https://plaktico.onrender.com/predict"; // Cambia esto según la dirección de tu servidor
 
 let webcam;
 
